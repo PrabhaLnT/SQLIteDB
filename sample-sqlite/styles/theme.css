@@ -9,6 +9,7 @@ html {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+   
   font-family: sans-serif;
   /* 1 */
   -ms-text-size-adjust: 100%;
@@ -19,6 +20,9 @@ html {
 /**
  * Remove default margin.
  */
+body {
+  overflow-y: scroll;
+}
 body {
   margin: 0;
   line-height: 1; }
