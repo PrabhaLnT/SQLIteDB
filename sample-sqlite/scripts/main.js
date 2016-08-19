@@ -26,9 +26,20 @@ app.createTable = function() {
 	var db = app.db;
 	db.transaction(function(tx) {
 		
-        tx.executeSql("Create table WOM_MeasurementCreate (ID INTEGER PRIMARY KEY ASC, Job_code text, Job_name Text, strVendorCodeDesc ,\
-                      Work_orderNo text,Start_date text, End_date text, Entry_date  test, Item_no text, PBS_assetcode text, DIM1 integer, DIM2 integer, DIM3 integer, Sets integer,\
-			Remarks text, Sync_Status boolean)",[]);
+       /* tx.executeSql("Create table WOM_MeasurementCreate (ID INTEGER PRIMARY KEY ASC, Job_code text, Job_name Text, strVendorCodeDesc ,\
+                      strWONos text,strWOFromDate text, strWOTODate text, strWODate text, strItemCode text, strItemCodeFullDescr, strWoItemDesc text, PBS_assetcode text, DIM1 integer, DIM2 integer, DIM3 integer, Sets integer,\
+			Remarks text, Sync_Status boolean)",[]);*/
+        tx.executeSql("Create table WOM_MeasurementCreate (ID INTEGER PRIMARY KEY ASC, \
+        strJobValueField text, strJobTextField Text, \
+        strVendorValueField, strVendorCodeDesc,\
+		strWONos text,strWOFromDate text, strWOTODate text, strWODate text, \
+		strItemCode text, strItemCodeFullDescr text, strWoItemDesc text, strItemVersion text, strItemMarkup text,strUOMshrtDesc text \
+		strstagecodedesc text, strStage text, strStageDesc text, \
+		strAssetReconCode text, strAssetReconDesc text, strcodedesc text, \
+		ItemCode text, Itemdesc text,\
+		length integer, width integer, height integer, sets integer,quantity integer,\
+		remarks text, Sync_Status boolean)",[]);
+
 	});
 }
    
@@ -43,12 +54,29 @@ app.addTodo = function(Jcode, Jname, Vcodedescr, Wonum, Sdate, Edate, Entrydate,
 					  [todoText, addedOn],
 					  app.onSuccess,
 					  app.onError);*/
+        
       tx.executeSql(
-"Insert into WOM_MeasurementCreate(Job_code, Job_name, strVendorCodeDesc, Work_orderNo,Start_date,End_date,Entry_date, Item_no, PBS_assetcode, DIM1, DIM2, DIM3, Sets, Remarks, Sync_Status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [Jcode, Jname, Vcodedescr, Wonum, Sdate, Edate, Entrydate,Itemcode, Assetcode, DIM1, DIM2, DIM3, Sets, Remarks, Sync_status], app.onSuccess, app.onError);
+		"Insert into WOM_MeasurementCreate(strJobValueField, strJobTextField, \
+		strVendorCodeDesc, \
+		strWONos,strWOFromDate,strWOTODate,strWODate, \
+		strItemCode,\
+		ItemCode, \
+		length, width, height, sets,\
+		remarks) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+          [Jcode, Jname, strJson, Wonum, Sdate, Edate, Entrydate,Itemcode, Assetcode, DIM1, DIM2, DIM3, Sets, Remarks], app.onSuccess, app.onError);
 	});
     console.log("after insert");
 }
-      
+//generalized insert 
+app.addToDoItem = function(Item_tablename, Item){
+    console.log("Insert " + Item_tablename + "with value" + Item);
+    db.transaction(function(tx){
+       tx.executeSql("Insert into WOM_MeasurementCreate (" + Item_tablename + ")VALUES" + "(" + Item + ")" , app.onSuccess, app.onError)
+                   
+      });
+        
+}
+
 app.onError = function(tx, e) {
 	console.log("Error: " + e.message);
     app.hideOverlay();
@@ -87,10 +115,11 @@ app.deleteTodo = function(id) {
 //display the query result in the output window
 app.refresh = function() {
 	var renderTodo = function (row) {
-	    return "<li class='list__item'><i class='list__icon list__icon--check fa fa-check u-color-positive'></i><span class='list__text'>" + row.strVendorCodeDesc + "</span>" +
+	    return "<li class='list__item'>"+ row.strWONos +"<br/>"+
+             row.strVendorCodeDesc + "<br/>"+ row.strWOFromDate + " to " + row.strWOTODate + "</span>" +
             "<a class='delete' href='javascript:void(0);' onclick='app.showOverlay(" + row.ID + ");'><i class='list__icon list__icon--delete fa fa-trash-o u-color-negative'></i></a></li>";
 	}
-    
+
 	var render = function (tx, rs) {
         console.log("output = "+ tx + rs);
 		var rowOutput = "";

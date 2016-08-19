@@ -3,6 +3,10 @@
     opacity: 0.5;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 .overlay {
 	position: fixed;
     overflow: hidden;

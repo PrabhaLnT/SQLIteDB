@@ -21,6 +21,7 @@
   "FrameworkVersion": "4.0.0",
   "CorePlugins": [
     "com.phonegap.plugins.sqlite@1.0.6",
+    "com.telerik.plugin.telerikanalytics@3.4.1",
     "cordova-plugin-splashscreen",
     "cordova-plugin-whitelist"
   ],
@@ -43,5 +44,12 @@
   "WP8ProductID": "{71c166d2-1c24-4057-9c75-0adbbd77d9dc}",
   "WP8PackageIdentityName": "1234Telerik.com.telerik.samplesqlite",
   "WP8WindowsPublisherName": "CN=Telerik",
-  "WPSdk": "8.1"
+  "WPSdk": "8.1",
+  "CordovaPluginVariables": {
+    "com.telerik.plugin.telerikanalytics": {
+      "AUTO_TRACK_EXCEPTIONS": "True",
+      "AUTO_TRACK_KENDO_EVENTS": "True",
+      "PRODUCT_ID": "791133548b8a4d37807014bf85dca6e3"
+    }
+  }
 }
